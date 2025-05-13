@@ -1,38 +1,51 @@
-def encrypt(text, key):
-    """
-    Encrypts the given text using the Vigenère cipher with the provided key.
-    
-    :param text: The text to encrypt.
-    :param key: The key to use for encryption.
-    :return: The encrypted text.
-    """
+def generate_key(msg, key):
+    '''
+    Generate a key that is as long as the message.
+    '''
+    key = list(key)
+    if len(msg) == len(key):
+        return key
+    else:
+        for i in range(len(msg) - len(key)):
+            key.append(key[i % len(key)])
+    return "".join(key)
+
+
+def encrypt(msg, key):
+    '''
+    Encrypt the message using the Vigenère cipher.
+    '''
     encrypted_text = []
-    key_length = len(key)
-    key_as_int = [ord(i) for i in key]
-    text_as_int = [ord(i) for i in text]
-    
-    for i in range(len(text_as_int)):
-        value = (text_as_int[i] + key_as_int[i % key_length]) % 256
-        encrypted_text.append(chr(value))
-    
-    return ''.join(encrypted_text)
+    key = generate_key(msg, key)
+    for i in range(len(msg)):
+        char = msg[i]
+        if char.isupper():
+            encrypted_char = chr(
+                (ord(char) + ord(key[i]) - 2 * ord('A')) % 26 + ord('A'))
+        elif char.islower():
+            encrypted_char = chr(
+                (ord(char) + ord(key[i]) - 2 * ord('a')) % 26 + ord('a'))
+        else:
+            encrypted_char = char
+        encrypted_text.append(encrypted_char)
+    return "".join(encrypted_text)
 
 
-def decrypt(ciphertext, key):
-    """
-    Decrypts a Vigenère cipher using the provided key.
-
-    :param ciphertext: The encrypted text to decrypt.
-    :param key: The key used for decryption.
-    :return: The decrypted plaintext.
-    """
+def decrypt(msg, key):
+    '''
+    Decrypt the message using the Vigenère cipher.
+    '''
     decrypted_text = []
-    key_length = len(key)
-    key_as_int = [ord(i) - ord('A') for i in key.upper()]
-    ciphertext_int = [ord(i) - ord('A') for i in ciphertext.upper()]
-
-    for i in range(len(ciphertext_int)):
-        value = (ciphertext_int[i] - key_as_int[i % key_length]) % 26
-        decrypted_text.append(chr(value + ord('A')))
-
-    return ''.join(decrypted_text)
+    key = generate_key(msg, key)
+    for i in range(len(msg)):
+        char = msg[i]
+        if char.isupper():
+            decrypted_char = chr(
+                (ord(char) - ord(key[i]) + 26) % 26 + ord('A'))
+        elif char.islower():
+            decrypted_char = chr(
+                (ord(char) - ord(key[i]) + 26) % 26 + ord('a'))
+        else:
+            decrypted_char = char
+        decrypted_text.append(decrypted_char)
+    return "".join(decrypted_text)

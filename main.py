@@ -3,7 +3,7 @@ from vigenere_cipher import encrypt, decrypt
 def main():
     # Example usage
     plaintext = "HELLO WORLD"
-    key = "KEY"
+    key = "KEYKEY"
 
     # Encrypt the plaintext
     encrypted_text = encrypt(plaintext, key)
