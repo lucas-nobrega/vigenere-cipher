@@ -10,7 +10,7 @@ A simple implementation of the Vigenère cipher in Python.
     ```
 2. Run the script:
    ```bash
-    python vigenere.py
+    python3 -B main.py
     ```
 3. Enter the plaintext and key when prompted.
 4. The script will output the encrypted text.
