@@ -1,74 +1,72 @@
-def generate_key(msg, key):
-    '''
-    Generate a key that is as long as the message,
-    because the Vigenère cipher requires a key that is repeated to match the length of the message.
-    '''
-    key = list(key)
-    if len(msg) == len(key):
-        return key
+def gerar_chave(mensagem, chave):
+    chave = list(chave)
+    if len(mensagem) == len(chave):
+        return chave
     else:
-        for i in range(len(msg) - len(key)):
-            key.append(key[i % len(key)])
-    return "".join(key)
+        for i in range(len(mensagem) - len(chave)):
+            chave.append(chave[i % len(chave)])
+    return "".join(chave)
 
 
-def encrypt(msg, key):
-    '''
-    Encrypt the message using the Vigenère cipher.
-    '''
-    encrypted_text = []
-    key = generate_key(msg, key)
-    for i in range(len(msg)):
-        char = msg[i]
-        if char.isupper():
-            # The formula for encryption is (P + K) mod 26
-            # where P is the plaintext letter, K is the key letter
-            # and the result is converted back to a letter
-            # The ord() function returns the Unicode code point of the character
-            # The chr() function converts the Unicode code point back to a character
-            # The -2 * ord('A') is used to adjust the range of the result
-            # to be within the uppercase letters A-Z
-            # The % 26 ensures that the result wraps around if it exceeds 25
-            # The + ord('A') converts the result back to the ASCII range for uppercase letters
-            # The same logic applies for lowercase letters
-            encrypted_char = chr(
-                (ord(char) + ord(key[i]) - 2 * ord('A')) % 26 + ord('A'))
-            
-        elif char.islower():
-            encrypted_char = chr(
-                (ord(char) + ord(key[i]) - 2 * ord('a')) % 26 + ord('a'))
+def criptografar(mensagem, chave):
+    texto_criptografado = []
+    chave = gerar_chave(mensagem, chave)
+    for i in range(len(mensagem)):
+        caractere = mensagem[i]
+        if caractere.isupper():
+            caractere_criptografado = chr(
+                (ord(caractere) + ord(chave[i]) - 2 * ord('A')) % 26 + ord('A'))
+        elif caractere.islower():
+            caractere_criptografado = chr(
+                (ord(caractere) + ord(chave[i]) - 2 * ord('a')) % 26 + ord('a'))
         else:
-            encrypted_char = char
-        encrypted_text.append(encrypted_char)
-    return "".join(encrypted_text)
+            caractere_criptografado = caractere
+        texto_criptografado.append(caractere_criptografado)
+    return "".join(texto_criptografado)
 
 
-def decrypt(msg, key):
-    '''
-    Decrypt the message using the Vigenère cipher.
-    '''
-    decrypted_text = []
-    key = generate_key(msg, key)
-    for i in range(len(msg)):
-        char = msg[i]
-        if char.isupper():
-            # The formula for decryption is (C - K + 26) mod 26
-            # where C is the ciphertext letter, K is the key letter
-            # and the result is converted back to a letter
-            # The + 26 is used to ensure that the result is non-negative
-            # The % 26 ensures that the result wraps around if it exceeds 25
-            # The - ord('A') is used to adjust the range of the result
-            # to be within the uppercase letters A-Z
-            # The + ord('A') converts the result back to the ASCII range for uppercase letters
-            # The same logic applies for lowercase letters
-            # The -2 * ord('A') is used to adjust the range of the result
-            # to be within the uppercase letters A-Z
-            decrypted_char = chr(
-                (ord(char) - ord(key[i]) + 26) % 26 + ord('A'))
-        elif char.islower():
-            decrypted_char = chr(
-                (ord(char) - ord(key[i]) + 26) % 26 + ord('a'))
+def descriptografar(mensagem, chave):
+    texto_descriptografado = []
+    chave = gerar_chave(mensagem, chave)
+    for i in range(len(mensagem)):
+        caractere = mensagem[i]
+        if caractere.isupper():
+            caractere_descriptografado = chr(
+                (ord(caractere) - ord(chave[i]) + 26) % 26 + ord('A'))
+        elif caractere.islower():
+            caractere_descriptografado = chr(
+                (ord(caractere) - ord(chave[i]) + 26) % 26 + ord('a'))
         else:
-            decrypted_char = char
-        decrypted_text.append(decrypted_char)
-    return "".join(decrypted_text)
+            caractere_descriptografado = caractere
+        texto_descriptografado.append(caractere_descriptografado)
+    return "".join(texto_descriptografado)
+
+
+def main():
+    while True:
+        print("\n--- Cifra de Vigenère ---")
+        mensagem_original = input(
+            "Digite a mensagem que deseja criptografar (ou 'sair' para terminar): ")
+
+        if mensagem_original.lower() == 'sair':
+            break
+
+        chave = input("Digite a chave: ")
+
+        if not chave or not chave.isalpha():
+            print("Erro: A chave não pode ser vazia e deve conter apenas letras.")
+            continue
+
+        # Criptografar
+        mensagem_criptografada = criptografar(mensagem_original, chave)
+        print(f"Mensagem Criptografada: {mensagem_criptografada}")
+
+        # Descriptografar
+        mensagem_descriptografada = descriptografar(
+            mensagem_criptografada, chave)
+        print(f"Mensagem Descriptografada: {mensagem_descriptografada}")
+
+    print("Programa encerrado.")
+
+if __name__ == "__main__":
+    main()

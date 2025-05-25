@@ -1,18 +1,14 @@
+# Cifra de Vigenère em Python
 
-# Vigenère Cipher
-A simple implementation of the Vigenère cipher in Python.
+## Como Usar
 
-## How to Use
-1. Clone the repository:
-   ```bash
-   git clone
-    cd vigenere-cipher
+1.  **Execute** com o comando:
+    ```bash
+    python vigenere_cipher.py # Para a criptografia e descriptografia
     ```
-2. Run the script:
-   ```bash
-    python3 -B main.py
+    ```bash
+    python vigenere_ingles.py # Para o ataque de analise de frequência em inglês
     ```
-3. Enter the plaintext and key when prompted.
-4. The script will output the encrypted text.
-5. To decrypt, run the script again and enter the ciphertext and key.
-6. The script will output the decrypted text.
+    ```bash
+    python vigenere_portugues.py # Para o ataque de analise de frequência em português
+    ```
